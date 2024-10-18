@@ -115,7 +115,7 @@ plt.show()
 
 #! chance to be murdered based two independent values of time of day and location in the ragards to total population of nyc
 #! np.array to hold two independent values for this calculation and create a heatmap for chance to murdered.
-#! use the fixture for the population to see the chance of being murdered for per-capita basis. 
+#! use the fixture dictionary for the population to see the chance of being murdered for per-capita basis. 
 population_data = {
     'BRONX': 1418207,
     'BROOKLYN': 2559903,
@@ -139,7 +139,7 @@ for boro in murder_by_hour_location.index:
 
 murder_heatmap_data = murder_by_hour_location.to_numpy()
 
-#! Heat map is good and closer to 1 more change to be killed
+#! Heat map is good and closer to 1 more chance to be killed based on the hour and place
 plt.figure(figsize=(12, 10))
 sns.heatmap(murder_heatmap_data, cmap='coolwarm', annot=True, fmt='.2f', xticklabels=range(24), yticklabels=murder_by_hour_location.index)
 plt.title('Chance to be Murdered by Hour and Borough (per 100,000 people)')
