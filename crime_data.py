@@ -6,7 +6,7 @@ import seaborn as sns
 from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
-
+from sklearn.preprocessing import StandardScaler
 
 try:
     df = pd.read_csv("./Social_Network_Ads.csv")
@@ -298,3 +298,60 @@ plt.xlabel("Predicted")
 plt.ylabel("Actual")
 plt.show()
 
+# Drop the 'User ID' column
+if "User ID" in df.columns:
+    df.drop(columns=["User ID"], inplace=True)
+    print("Dropped 'User ID' column")
+
+# Encode the 'Gender' column
+df["Gender"] = df["Gender"].apply(lambda x: 1 if x == "Male" else 0)
+
+# Features (Gender and EstimatedSalary) and Target (Purchased)
+X = df[["Gender", "EstimatedSalary"]]  # Using both Gender and EstimatedSalary as features
+y = df["Purchased"].values  # Target values
+
+# Split the data into training and testing sets (80% training, 20% testing)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Initialize the StandardScaler
+scaler = StandardScaler()
+
+# Fit the scaler on the training data and transform both the training and test sets
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Initialize the Logistic Regression model
+log_reg = LogisticRegression()
+
+# Train the model
+log_reg.fit(X_train, y_train)
+
+# Make predictions on the test set
+y_pred = log_reg.predict(X_test)
+
+# Model evaluation
+accuracy = accuracy_score(y_test, y_pred)
+conf_matrix = confusion_matrix(y_test, y_pred)
+class_report = classification_report(y_test, y_pred)
+
+print(f"Accuracy: {accuracy * 100:.2f}%")
+print("Confusion Matrix:")
+print(conf_matrix)
+print("Classification Report:")
+print(class_report)
+
+# Visualizing the Confusion Matrix
+plt.figure(figsize=(6, 4))
+sns.heatmap(
+    conf_matrix,
+    annot=True,
+    fmt="d",
+    cmap="Blues",
+    cbar=False,
+    xticklabels=["Not Purchased", "Purchased"],
+    yticklabels=["Not Purchased", "Purchased"],
+)
+plt.title("Confusion Matrix")
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.show()
