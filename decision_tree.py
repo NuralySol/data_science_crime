@@ -123,7 +123,7 @@ plt.show()
 
 #! Gini Impurity.
 
-# 1.	Gini Impurity of 0: The node is pure, meaning all the samples in that node belong to the same class.
+#   1.	Gini Impurity of 0: The node is pure, meaning all the samples in that node belong to the same class.
 # 	•	Example: If a node contains only samples of the class “Setosa,” the Gini Impurity is 0, indicating that the node is perfectly pure.
 # 	2.	Gini Impurity close to 0.5: The node is highly impure, meaning the samples are split evenly among multiple classes.
 # 	•	Example: If a node contains 50% “Setosa” and 50% “Versicolor,” the Gini Impurity would be 0.5, indicating a high level of impurity.
